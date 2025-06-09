@@ -1,5 +1,5 @@
-from flask import Blueprint, render_template
-from flask_login import login_required
+from flask import Blueprint, render_template, redirect, url_for
+from flask_login import login_required, current_user
 
 main_bp = Blueprint('main', __name__)
 
@@ -11,10 +11,9 @@ def home():
 @main_bp.route('/dashboard')
 @login_required
 def dashboard():
-    role = current_user.role
-    if role == 'admin':
+    if current_user.role == 'admin':
         return redirect(url_for('admin.dashboard'))
-    elif role == 'teacher':
+    elif current_user.role == 'teacher':
         return redirect(url_for('teacher.dashboard'))
     else:
         return redirect(url_for('student.dashboard'))

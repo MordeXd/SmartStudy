@@ -5,7 +5,7 @@ from app.models import User
 from .forms import RegistrationForm, LoginForm, ForgotPasswordForm, ResetPasswordForm
 from .utils import send_reset_email, send_welcome_email
 
-auth_bp = Blueprint('auth', __name__)
+auth_bp = Blueprint('auth', __name__, url_prefix='/auth')
 
 @auth_bp.route('/register', methods=['GET', 'POST'])
 def register():
