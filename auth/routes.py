@@ -1,6 +1,7 @@
+# auth/routes.py
 from flask import Blueprint, render_template, redirect, url_for, flash, request
 from flask_login import login_user, logout_user, login_required, current_user
-from app import db, bcrypt
+from extensions import db, bcrypt
 from models import User
 from forms import RegisterForm, LoginForm
 
@@ -23,7 +24,7 @@ def login():
     form = LoginForm()
     if form.validate_on_submit():
         user = User.query.filter_by(email=form.email.data).first()
-        if user and bcrypt.check_password_hash(user.password, form.password.data):
+        if user and bcrypt.check_password_hash(user.password.data, form.password.data):
             login_user(user)
             if user.role == 'student':
                 return redirect(url_for('student.dashboard'))
